@@ -593,80 +593,42 @@
     </footer>
     <script type="module">
 
-        document.addEventListener("DOMContentLoaded", () => { const buybtn = document.querySelectorAll(".product-card .btn.primary.full") if (!userId){ buybtn.forEach(function(btn) { btn.addEventListener("click", function(e) { window.location.href = "login.html";
-        }, true); // capture phase — runs before existing bubble-phase listeners }); } buybtn.forEach((button) => { button.addEventListener("click", (event) => { event.preventDefault(); // Get the exact product card containing the clicked button const
-        card = event.currentTarget.closest(".product-card"); if (!card) { console.error("Product card not found."); return; } // Collect the existing information directly from the card const image = card.querySelector(".product-img img"); const dailyearnText
-        = card.querySelector(".dailyearn")?.textContent.trim() || ""; const dailyearnNumber = parseInt(dailyearnText.replace(/\D/g, ""), 10) || 0; const product = { name: card.querySelector("h3")?.textContent.trim() || "", tag: card.querySelector(".tag")?.textContent.trim()
-        || "", price: card.querySelector(".price")?.textContent.trim() || "", image: image?.getAttribute("src") || "", alt: image?.getAttribute("alt") || "", points: card.querySelector(".points")?.textContent.trim() || "", dailyearn: dailyearnText, returnAmount:
-        dailyearnNumber * 30 }; // Store the selected product as an object sessionStorage.setItem( "selectedProduct", JSON.stringify(product) ); // Redirect to your reusable product page window.location.href = "indexproduct.html"; }); }); });
+        document.addEventListener("DOMContentLoaded", () => {
+  const buybtn = document.querySelectorAll(".product-card .btn.primary.full");
+  const isLogin = localStorage.getItem("isLogin") === "true";
 
+  buybtn.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
 
-    </script>
+      if (!isLogin) {
+        window.location.href = "login.html";
+        return;
+      }
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        if (!window.__sbTrackerInitialized) {
-            window.__sbTrackerInitialized = true;
+      const card = event.currentTarget.closest(".product-card");
+      if (!card) return;
 
-            const sbClient = window.supabase.createClient(
-                'https://gbaomqfqupqsgqnysujm.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdiYW9tcWZxdXBxc2dxbnlzdWptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcyNDkxMjksImV4cCI6MjEwMjgyNTEyOX0.3p7epAp9gQiPtBLYBa2RzmJBEPSZzo-jb8dMVv8rxkk'
-            );
+      const image = card.querySelector(".product-img img");
+      const dailyearnText = card.querySelector(".dailyearn")?.textContent.trim() || "";
+      const dailyearnNumber = parseInt(dailyearnText.replace(/\D/g, ""), 10) || 0;
 
-            function getSessionId() {
-                let sid = sessionStorage.getItem('sid');
-                if (!sid) {
-                    sid = crypto.randomUUID();
-                    sessionStorage.setItem('sid', sid);
-                }
-                return sid;
-            }
+      const product = {
+        name: card.querySelector("h3")?.textContent.trim() || "",
+        tag: card.querySelector(".tag")?.textContent.trim() || "",
+        price: card.querySelector(".price")?.textContent.trim() || "",
+        image: image?.getAttribute("src") || "",
+        alt: image?.getAttribute("alt") || "",
+        points: card.querySelector(".points")?.textContent.trim() || "",
+        dailyearn: dailyearnText,
+        returnAmount: dailyearnNumber * 30
+      };
 
-            const sessionId = getSessionId();
-            const pageStart = Date.now();
-
-            sbClient.from('page_events').insert({
-                session_id: sessionId,
-                page_path: window.location.pathname,
-                event_type: 'pageview',
-                referrer: document.referrer,
-                user_agent: navigator.userAgent
-            });
-
-            function sendLeaveEvent() {
-                const duration = Date.now() - pageStart;
-                const payload = {
-                    session_id: sessionId,
-                    page_path: window.location.pathname,
-                    event_type: 'pageleave',
-                    duration_ms: duration
-                };
-                navigator.sendBeacon(
-                    'https://gbaomqfqupqsgqnysujm.supabase.co/rest/v1/page_events',
-                    new Blob([JSON.stringify(payload)], {
-                        type: 'application/json'
-                    })
-                );
-            }
-
-            document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'hidden') sendLeaveEvent();
-            });
-            window.addEventListener('pagehide', sendLeaveEvent);
-        }
-
-
-      document.addEventListener("DOMContentLoaded", () => {
-  // code above
-        const isLogin = localStorage.getItem("isLogin") === "true";
-
-if (!isLogin) {
-  document.querySelectorAll(".auth").forEach(el => {
-    el.style.display = "none";
+      sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+      window.location.href = "indexproduct.html";
+    });
   });
-}
 });
-      
     </script>
 
 
