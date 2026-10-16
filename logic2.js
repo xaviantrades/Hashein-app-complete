@@ -10,3 +10,7 @@ if (!userIid) {
   if (auth) auth.style.display = "flex";
   
 }
+
+if (userIid){
+    if (auth) auth.style.display = "none";
+}
