@@ -1,7 +1,7 @@
 const userIid = localStorage.getItem("userId");
 const dontdisplay = document.querySelector(".notshow");
 const userinfo = document.querySelector(".user-info");
-const auth = document.querySelector(".auth);
+const auth = document.querySelector(".auth");
 
 
 if (!userIid) {
