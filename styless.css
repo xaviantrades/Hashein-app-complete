@@ -6,6 +6,9 @@
    ========================================================= */
 
 /* ---- Fonts ---- */
+:root {
+  color-scheme: only light;
+}
 @font-face {
   font-family: "DM Sans";
   font-style: normal;
