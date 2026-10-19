@@ -71,7 +71,7 @@ if (userData) {
 
 
 
-const SITE_URL = "http://investinginai.online/";
+const SITE_URL = "http://investinginai.online";
 
 function formatDate(timestamp) {
     if (!timestamp) return "N/A";
